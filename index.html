@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GASTEK system update — your decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── Edit these two lines before publishing ─────────────────────────── */
+/* SEND_TO (in the script below) = the email address answers go to.     */
+:root{
+  --ink:#1D2A25; --ink-2:#4B5B54; --ink-3:#7A8A83;
+  --paper:#FFFFFF; --page:#EEF2F0; --line:#D3DCD8; --line-2:#E4EAE7;
+  --green:#0F6B45; --green-2:#0B5536; --green-soft:#E3F1EA;
+  --amber:#F0B000; --amber-soft:#FFF4D1; --amber-ink:#6B4E00;
+  --red:#B4372B; --red-soft:#FBE9E6;
+  --blue:#245E9E; --blue-soft:#E6EFF9;
+  --radius:10px;
+  --head:'Archivo','Arial Narrow',Arial,sans-serif;
+  --body:'Public Sans','Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--green)}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:4px}
+
+/* ── Header ── */
+.top{background:var(--green);color:#fff;position:relative;overflow:hidden}
+.top-in{max-width:1180px;margin:0 auto;padding:44px 28px 40px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
+.brand{display:flex;align-items:center;gap:10px;font:800 15px/1 var(--head);letter-spacing:.04em;opacity:.95;margin-bottom:26px}
+.brand svg{flex:none}
+h1{font:800 clamp(30px,4.6vw,52px)/1.02 var(--head);letter-spacing:-.01em;margin:0 0 14px;max-width:16ch}
+.lede{margin:0;max-width:60ch;color:#DCEFE5;font-size:17px}
+.meter{background:var(--green-2);border-radius:var(--radius);padding:16px 20px;min-width:220px}
+.meter b{display:block;font:800 40px/1 var(--head)}
+.meter span{font-size:14px;color:#CFE6DA}
+.bar{height:6px;background:rgba(255,255,255,.18);border-radius:3px;margin-top:12px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--amber);transition:width .35s ease}
+/* stripes = the signage nod; one place only */
+.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:repeating-linear-gradient(-45deg,var(--amber) 0 14px,var(--green-2) 14px 28px)}
+
+/* ── Layout ── */
+.wrap{max-width:1180px;margin:0 auto;padding:32px 28px 80px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px}
+.rail{position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto;padding-right:4px}
+.rail h2{font:700 15px/1.3 var(--head);margin:0 0 10px;color:var(--ink-2)}
+.rail ol{list-style:none;margin:0;padding:0}
+.rail a{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;padding:7px 8px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px;line-height:1.35}
+.rail a:hover{background:#fff}
+.rail a.here{background:#fff;box-shadow:inset 3px 0 0 var(--green)}
+.tick{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;color:#fff;margin-top:1px}
+.rail a.done .tick{background:var(--green);border-color:var(--green)}
+.rail a.done .tick::after{content:"✓";font-weight:700}
+.rail a.info .tick{border-style:dashed}
+.rail .num{color:var(--ink-3);font-variant-numeric:tabular-nums;margin-right:4px}
+
+main{min-width:0}
+.intro{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;margin-bottom:26px}
+.intro h2{font:700 21px/1.25 var(--head);margin:0 0 8px}
+.intro p{margin:0 0 10px;max-width:68ch;color:var(--ink-2)}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px;font-size:14px;color:var(--ink-2)}
+
+label.f{display:block;font-weight:600;font-size:14px;margin-bottom:5px}
+input[type=text],input[type=email],textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:10px 12px}
+textarea{min-height:76px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--green);outline:none;box-shadow:0 0 0 3px var(--green-soft)}
+
+/* ── Items ── */
+.item{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:22px;display:grid;grid-template-columns:6px 1fr;overflow:hidden}
+.item::before{content:"";background:var(--k,var(--line))}
+.item[data-kind=bug]{--k:var(--red)}
+.item[data-kind=enh]{--k:var(--blue)}
+.item[data-kind=exists]{--k:var(--green)}
+.item[data-kind=clarify]{--k:var(--amber)}
+.item-in{padding:22px 26px 24px}
+.item h3{font:700 22px/1.2 var(--head);margin:0 0 6px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.item h3 .n{color:var(--ink-3);font-weight:600}
+.kind{display:inline-block;font:600 13px/1 var(--body);padding:5px 9px;border-radius:999px;vertical-align:middle}
+.kind.bug{background:var(--red-soft);color:var(--red)}
+.kind.enh{background:var(--blue-soft);color:var(--blue)}
+.kind.exists{background:var(--green-soft);color:var(--green-2)}
+.kind.clarify{background:var(--amber-soft);color:var(--amber-ink)}
+.area{font-size:14px;color:var(--ink-3);margin:0 0 14px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 18px}
+.facts div{background:#F7F9F8;border-radius:8px;padding:12px 14px}
+.facts h4{font:700 14px/1.3 var(--head);margin:0 0 4px;color:var(--ink-2)}
+.facts p{margin:0;font-size:15px}
+.facts ul{margin:4px 0 0;padding-left:18px;font-size:15px}
+.note{font-size:14px;color:var(--ink-2);margin:-6px 0 16px}
+
+fieldset{border:0;margin:0 0 16px;padding:14px 16px 6px;border-radius:8px;background:var(--amber-soft);position:relative}
+fieldset.ok{background:#F2F7F4}
+legend{font-weight:700;font-size:15.5px;padding:0;margin-bottom:10px;float:left;width:100%}
+legend + *{clear:both}
+.opts{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.opt{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;background:#fff;border:1.5px solid var(--line-2);border-radius:8px;padding:10px 12px;cursor:pointer;font-size:15px;line-height:1.4}
+.opt:hover{border-color:var(--line)}
+.opt input{margin:2px 0 0;width:18px;height:18px;accent-color:var(--green)}
+.opt:has(input:checked){border-color:var(--green);background:var(--green-soft)}
+.opt small{display:block;color:var(--ink-2);font-size:13.5px;margin-top:2px}
+.rec{font-size:12.5px;font-weight:600;color:var(--green-2);background:var(--green-soft);border-radius:999px;padding:2px 8px;margin-left:6px;white-space:nowrap}
+.more{margin:2px 0 12px}
+.more label{font-size:13.5px;color:var(--ink-2);font-weight:500}
+
+/* ── Send ── */
+.send{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 28px}
+.send h2{font:800 26px/1.15 var(--head);margin:0 0 8px}
+.send p{color:#C5D2CC;margin:0 0 18px;max-width:64ch}
+.send label.f{color:#fff}
+.send textarea{background:#26342E;border-color:#3A4A43;color:#fff}
+.send textarea::placeholder{color:#8EA19A}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+button{font:600 15px/1 var(--body);border-radius:8px;padding:12px 16px;cursor:pointer;border:1.5px solid transparent}
+.b-main{background:var(--amber);color:#2A1F00}
+.b-main:hover{background:#FFC21A}
+.b-ghost{background:transparent;color:#fff;border-color:#55665E}
+.b-ghost:hover{border-color:#fff}
+.status{margin-top:12px;font-size:14px;color:#BFE7D2;min-height:20px}
+.missing{margin-top:10px;font-size:14px;color:#FFD66B}
+.foot{text-align:center;color:var(--ink-3);font-size:13px;margin-top:28px}
+.reset{background:none;border:0;color:var(--ink-3);text-decoration:underline;padding:0;font-size:13px}
+
+/* mobile progress strip */
+.mini{display:none}
+@media (max-width:900px){
+  .mini{display:flex;position:sticky;top:0;z-index:5;align-items:center;gap:12px;background:var(--green);color:#fff;padding:8px 16px;font-size:13.5px;font-weight:600}
+  .mini i{flex:1;height:5px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
+  .mini b{display:block;height:100%;width:0;background:var(--amber);transition:width .35s ease}
+}
+@media print{.mini{display:none!important}}
+/* ── Small screens ── */
+@media (max-width:900px){
+  .top-in{grid-template-columns:1fr;padding:32px 20px 34px}
+  .wrap{grid-template-columns:1fr;padding:20px 16px 60px;gap:0}
+  .rail{display:none}
+  .facts,.who{grid-template-columns:1fr}
+  .item-in{padding:18px 18px 20px}
+  .meter{min-width:0}
+}
+
+/* ── Print / PDF ── */
+@media print{
+  body{background:#fff;font-size:12px}
+  .rail,.btns,.status,.reset,.top::after{display:none}
+  .top{background:#fff;color:var(--ink);border-bottom:2px solid var(--ink)}
+  .lede,.meter span{color:var(--ink-2)}
+  .meter{background:#fff;border:1px solid var(--line)}
+  .wrap{display:block;padding:12px 0}
+  .item,.intro{break-inside:avoid;border-color:#bbb}
+  .opt{display:none}
+  .opt:has(input:checked){display:grid;background:#fff}
+  .send{background:#fff;color:var(--ink);border:1px solid #bbb}
+  .send p,.send label.f{color:var(--ink)}
+  .send textarea{background:#fff;color:var(--ink)}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <div>
+      <div class="brand">
+        <svg width="22" height="26" viewBox="0 0 22 26" aria-hidden="true"><path d="M11 0c2 5 9 8 9 15a9 9 0 0 1-18 0c0-4 2-6 4-8 0 3 1 5 3 5 0-4-1-7 2-12z" fill="#F0B000"/><path d="M11 13c1 3 4 4 4 7a4 4 0 0 1-8 0c0-2 1-3 2-4 0 1 .5 2 1.5 2 0-2-.5-3 .5-5z" fill="#fff"/></svg>
+        GASTEK
+      </div>
+      <h1>Your decisions for the next system update</h1>
+      <p class="lede">We reviewed each of your observations against the current system. Most fixes are clear; a few need your choice. Each item below says what we found and what we propose. Your answers save automatically in this browser.</p>
+    </div>
+    <div class="meter" aria-live="polite">
+      <b id="mCount">0 / 0</b>
+      <span>questions answered</span>
+      <div class="bar"><i id="mBar"></i></div>
+    </div>
+  </div>
+</header>
+
+<div class="mini" aria-hidden="true"><span id="miniTxt">0 / 0 answered</span><i><b id="miniBar"></b></i></div>
+
+<div class="wrap">
+  <nav class="rail" aria-label="Items">
+    <h2>Checklist</h2>
+    <ol id="rail"></ol>
+  </nav>
+
+  <main>
+    <section class="intro" aria-labelledby="introH">
+      <h2 id="introH">Before you start</h2>
+      <p>About 10 minutes. Answer what you can; anything you skip we'll ask about in our next meeting. When you're done, use <b>Send my answers</b> at the bottom.</p>
+      <div class="legend" aria-label="What the colours mean">
+        <span><span class="kind bug">Bug</span> something not working; we'll fix it</span>
+        <span><span class="kind enh">New feature</span> to build, with your input</span>
+        <span><span class="kind exists">Already there</span> needs a small change to be clearer</span>
+        <span><span class="kind clarify">Need your input</span> we can't decide this without you</span>
+      </div>
+      <div class="who">
+        <div><label class="f" for="rName">Your name</label><input id="rName" type="text" autocomplete="name" data-save></div>
+        <div><label class="f" for="rCo">Company</label><input id="rCo" type="text" autocomplete="organization" data-save></div>
+      </div>
+    </section>
+
+    <div id="items"></div>
+
+    <section class="send" id="send" aria-labelledby="sendH">
+      <h2 id="sendH">Send my answers</h2>
+      <p>Anything we missed, or a priority you want to set? Add it here, then send. If email doesn't open on this device, use Copy or Download and send it any way you like.</p>
+      <label class="f" for="rOther">Anything else (optional)</label>
+      <textarea id="rOther" data-save placeholder="For example: please do the Receivables EWT change first"></textarea>
+      <div class="missing" id="missing"></div>
+      <div class="btns">
+        <button class="b-main" id="bEmail" type="button">Email my answers</button>
+        <button class="b-ghost" id="bCopy" type="button">Copy answers</button>
+        <button class="b-ghost" id="bDown" type="button">Download as text</button>
+        <button class="b-ghost" id="bPrint" type="button">Print or save as PDF</button>
+      </div>
+      <div class="status" id="status" role="status"></div>
+    </section>
+
+    <p class="foot">Answers stay in this browser until you send them. <button class="reset" id="bReset" type="button">Clear all answers</button></p>
+  </main>
+</div>
+
+<script>
+/* ── Edit before publishing ─────────────────────────────────────────── */
+const SEND_TO = '';            // e.g. 'you@yourcompany.com'
+const SUBJECT = 'GASTEK system update — client decisions';
+/* ───────────────────────────────────────────────────────────────────── */
+
+const KIND = {bug:'Bug', enh:'New feature', exists:'Already there', clarify:'Need your input'};
+
+/* Each item: what we found, what we propose, questions.
+   q.type: 'one' (radio) | 'many' (checkboxes); every question has an
+   optional note box. info:true = nothing to answer. */
+const ITEMS = [
+ {n:1, kind:'bug', area:'SO Import', title:'Pasting several cells loses the first line',
+  found:'If the cell you paste into is still open for typing, it can write its old text back over the first pasted line.',
+  plan:'Pasting several cells will close the open cell first and read Excel cells that contain line breaks correctly. Until then: click once on the first cell (don\u2019t double-click) and press Ctrl + V.',
+  qs:[{id:'q1a', type:'one', text:'When you pasted, was a typing cursor showing in the cell?', opts:['Yes','No','Not sure']},
+      {id:'q1b', type:'one', text:'Do any of the copied Excel cells contain line breaks (text on two lines)?', opts:['Yes','No','Not sure']}]},
+
+ {n:2, kind:'exists', area:'Sales Orders', title:'"Approved for billing" vs "approved for SO"',
+  found:'There are two approvals: a quote approval (before it becomes an SO), then an SO approval (before it can be billed). The second label, "Approved for billing", is what reads as confusing.',
+  plan:'Rename the labels: "Quote approved \u2192 Pull to SO" and "SO approved (ready for billing)".',
+  qs:[{id:'q2', type:'one', text:'Do you want to keep the second approval before billing?', opts:[
+      {t:'Keep it', d:'An SO must be approved before anyone can bill it', rec:true},
+      {t:'Remove it', d:'An approved quote can be billed as soon as it\u2019s pulled to an SO'}]}]},
+
+ {n:3, kind:'clarify', area:'Sales Orders', title:'Print settings',
+  found:'Today you can set font sizes for headings, client details, tables and totals (Print Settings on the Sales Orders page). Printouts use the company details from Settings.',
+  plan:'We\u2019ll add what you tick below.',
+  qs:[{id:'q3', type:'many', text:'What should we be able to change on the Sales Order printout?', opts:['Margins','Paper size (A4 / Letter / Legal)','Logo size or position','Which fields are printed','Signature lines (Prepared by / Approved by)','A different overall layout']}]},
+
+ {n:4, kind:'bug', area:'Receivables', title:'EWT doesn\u2019t show in Receivables',
+  found:'The EWT column only shows EWT already withheld on payments, so it reads \u20b10.00 until the client pays.',
+  plan:'Show, per invoice: Balance, EWT expected, EWT still to settle, and Cash to collect (balance minus EWT still to settle).',
+  qs:[{id:'q4', type:'one', text:'Do these four columns cover what you need?', opts:[{t:'Yes',rec:true},'Yes, but also show it in the per-client summary','No (tell us in the note)']}]},
+
+ {n:5, kind:'enh', area:'Invoices', title:'Formatting in default invoice remarks',
+  found:'The default remarks (bank details, payment instructions) are plain text, so they can\u2019t be bold, underlined or italic.',
+  plan:'A small formatting bar above the remarks, in Settings and on each invoice; the printout shows the formatting.',
+  qs:[{id:'q5', type:'many', text:'Which formatting do you need?', opts:['Bold','Italic','Underline','Font size','Text colour']}]},
+
+ {n:6, kind:'exists', area:'Reports', title:'Group by client or by company',
+  found:'This choice already exists, but it\u2019s hidden in a drop-down.',
+  plan:'Two clickable buttons: By client (store) and By company.',
+  qs:[{id:'q6', type:'one', text:'Is that what you meant?', opts:[{t:'Yes',rec:true},'No (tell us in the note)']}]},
+
+ {n:7, kind:'enh', area:'Reports', title:'Pick a month and year',
+  found:'Today you can pick a whole year, the last 30 or 90 days, or all time.',
+  plan:'Add a month picker next to the year (All months, January \u2026 December).',
+  qs:[{id:'q7', type:'one', text:'Is a single month enough, or do you need a date range?', opts:['A single month is enough','I need a from\u2013to date range']}]},
+
+ {n:8, kind:'enh', area:'Reports', title:'Collected amount and %: this year\u2019s SOs vs older SOs',
+  found:'Reports today show totals for the Sales Orders created in the period; they don\u2019t separate money collected on old Sales Orders.',
+  plan:'A new block \u201cCollected in this period\u201d: amount and % from this year\u2019s SOs, from earlier years\u2019 SOs, and the total.',
+  qs:[{id:'q8', type:'one', text:'What should the % mean?', opts:[
+      {t:'Share of the money collected', d:'e.g. 70% of this month\u2019s collections came from this year\u2019s SOs', rec:true},
+      {t:'How much of each group\u2019s contracts has been collected', d:'e.g. this year\u2019s SOs are 45% collected'},
+      {t:'Show both'}]}]},
+
+ {n:9, kind:'enh', area:'Users', title:'Limit a user to their own sales account',
+  found:'Today, anyone who can view Sales Orders sees all of them. Users aren\u2019t linked to a sales account.',
+  plan:'Each user gets a Sales account setting (All, or specific accounts). A restricted user only sees and works on their account\u2019s records. This is enforced in the database, not just hidden on screen.',
+  qs:[{id:'q9a', type:'one', text:'Where should the restriction apply?', opts:[
+      'Only Quotations and Sales Orders',
+      'Also Billing, Invoices and Payments for those SOs',
+      'Everything, including Commission and Reports']},
+      {id:'q9b', type:'one', text:'Can one user belong to more than one sales account?', opts:['Yes','No, one account per user']}]},
+
+ {n:10, kind:'bug', area:'Quotation', title:'Header: To / Project / Location',
+  found:'The printed quotation shows To = store name, Project = a free-text field, Location = site.',
+  plan:'Match the invoice: To = Company name, Project = Store name, Location = Store address. Attention, Email, Tel and Subject stay as they are.',
+  qs:[{id:'q10', type:'one', text:'What should happen to the free-text \u201cProject\u201d field?', opts:[
+      {t:'Remove it'},{t:'Keep it as an extra line', d:'e.g. \u201cKitchen Fire Suppression PMS\u201d under the store name'}]}]},
+
+ {n:11, kind:'bug', area:'Quotation', title:'PO # and SO fields show too early',
+  found:'P.O. #, SO # Year and SO Date appear as soon as a quotation is created.',
+  plan:'Hide them on a quotation; show them once the quote is approved and pulled to a Sales Order. Direct Sales Orders keep them.',
+  qs:[{id:'q11', type:'one', text:'Agree?', opts:[{t:'Yes',rec:true},'No (tell us in the note)']}]},
+
+ {n:12, kind:'enh', area:'Quotation', title:'Price rules: single scope, discount, one total',
+  found:'Scope amounts print only in the Scope section; there\u2019s no discount line; the quotation prints a Price total and a separate contract total.',
+  plan:'With only one Scope section, show its amount as the Price line. Add \u201cLess: Discount\u201d. Print one TOTAL QUOTATION = all lines minus discount.',
+  qs:[{id:'q12a', type:'one', text:'How should the discount be entered?', opts:['As an amount (\u20b1)','As a percentage (%)','Either']},
+      {id:'q12b', type:'one', text:'When the job is billed, how should the discount be handled?', opts:[
+      {t:'Spread across the lines', d:'every billing, invoice and commission figure already includes it', rec:true},
+      {t:'As its own line', d:'billed or deducted separately'}]}]},
+
+ {n:13, kind:'enh', area:'Quotation', title:'After approval: choose lines and approved prices',
+  found:'Today, pulling an approved quote to a Sales Order takes all its lines at the quoted prices.',
+  plan:'A short review step when pulling to SO: tick the lines the client approved, enter the approved price per line and the approved discount. The SO shows Quoted vs Approved; the contract = approved total.',
+  qs:[{id:'q13a', type:'one', text:'Do you want this review step?', opts:[{t:'Yes',rec:true},'No, keep taking the whole quote']},
+      {id:'q13b', type:'one', text:'Who may change the approved prices?', opts:['Only the person who approves quotations','Anyone who can edit the quotation']}]},
+
+ {n:14, kind:'bug', area:'Direct Sales Order', title:'Direct SO: quote info and line items only',
+  found:'A Direct Sales Order uses the full quotation form (Introduction, Scope of Work, Terms).',
+  plan:'Show only the quote info (client, dates, PO #, subject) and the line items.',
+  qs:[{id:'q14', type:'one', text:'If a Direct SO ever needs a Scope of Work, what then?', opts:[
+      {t:'Keep it behind a \u201cShow Scope of Work\u201d option', rec:true},'Never needed, remove it']}]}
+];
+
+const STORE='gastek-questionnaire-v1';
+let A = {};
+try{ A = JSON.parse(localStorage.getItem(STORE)||'{}')||{}; }catch(e){ A={}; }
+const save = () => { try{ localStorage.setItem(STORE, JSON.stringify(A)); }catch(e){} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const optObj = o => typeof o==='string' ? {t:o} : o;
+
+function render(){
+  const host = document.getElementById('items');
+  host.innerHTML = ITEMS.map(it => `
+  <section class="item" id="item-${it.n}" data-kind="${it.kind}" aria-labelledby="h-${it.n}">
+    <div class="item-in">
+      <h3 id="h-${it.n}"><span><span class="n">${it.n}.</span> ${esc(it.title)}</span> <span class="kind ${it.kind}">${KIND[it.kind]}</span></h3>
+      <p class="area">${esc(it.area)}</p>
+      <div class="facts">
+        <div><h4>What we found</h4><p>${esc(it.found)}</p></div>
+        <div><h4>What we propose</h4><p>${esc(it.plan)}</p></div>
+      </div>
+      ${it.qs.map(q => `
+      <fieldset id="fs-${q.id}">
+        <legend>${esc(q.text)}${q.type==='many'?' <span style="font-weight:400;color:var(--ink-2)">(tick all that apply)</span>':''}</legend>
+        <div class="opts">
+          ${q.opts.map((o,i) => { o=optObj(o); const id=`${q.id}-${i}`;
+            const checked = q.type==='many' ? (A[q.id]||[]).includes(o.t) : A[q.id]===o.t;
+            return `<label class="opt" for="${id}"><input type="${q.type==='many'?'checkbox':'radio'}" id="${id}" name="${q.id}" value="${esc(o.t)}" ${checked?'checked':''}>
+              <span>${esc(o.t)}${o.rec?'<span class="rec">Recommended</span>':''}${o.d?`<small>${esc(o.d)}</small>`:''}</span></label>`; }).join('')}
+        </div>
+        <div class="more"><label for="${q.id}-note">Note (optional)</label><input type="text" id="${q.id}-note" data-note="${q.id}" value="${esc(A[q.id+'_note']||'')}"></div>
+      </fieldset>`).join('')}
+    </div>
+  </section>`).join('');
+
+  document.getElementById('rail').innerHTML = ITEMS.map(it =>
+    `<li><a href="#item-${it.n}" id="r-${it.n}"><span class="tick" aria-hidden="true"></span><span><span class="num">${it.n}</span>${esc(it.title)}</span></a></li>`).join('')
+    + `<li><a href="#send"><span class="tick" aria-hidden="true" style="border-color:var(--amber)"></span><span>Send my answers</span></a></li>`;
+
+}
+
+function answered(q){ const v=A[q.id]; return Array.isArray(v) ? v.length>0 : !!v || !!A[q.id+'_note']; }
+function progress(){
+  const all = ITEMS.flatMap(it => it.qs); const done = all.filter(answered).length;
+  document.getElementById('mCount').textContent = `${done} / ${all.length}`;
+  document.getElementById('mBar').style.width = (all.length? done/all.length*100 : 0) + '%';
+  document.getElementById('miniTxt').textContent = `${done} / ${all.length} answered`;
+  document.getElementById('miniBar').style.width = (all.length? done/all.length*100 : 0) + '%';
+  ITEMS.forEach(it => {
+    const a = document.getElementById('r-'+it.n); if(!a) return;
+    a.classList.toggle('done', it.qs.every(answered));
+    it.qs.forEach(q => { const fs=document.getElementById('fs-'+q.id); if(fs) fs.classList.toggle('ok', answered(q)); });
+  });
+  const miss = ITEMS.filter(it => !it.qs.every(answered)).map(it => it.n);
+  document.getElementById('missing').textContent = miss.length ? `Still open: item${miss.length>1?'s':''} ${miss.join(', ')}. You can still send; we'll follow up on those.` : 'All questions answered. Thank you.';
+}
+
+/* plain-text summary for email / copy / download */
+function summary(){
+  const L = [];
+  L.push('GASTEK system update: client decisions');
+  L.push(`From: ${A.rName||'(name not given)'}${A.rCo? ', '+A.rCo:''}`);
+  L.push(`Date: ${new Date().toLocaleString()}`);
+  L.push('');
+  ITEMS.forEach(it => {
+    L.push(`${it.n}. ${it.title} [${KIND[it.kind]}]`);
+    it.qs.forEach(q => {
+      const v = A[q.id]; const ans = Array.isArray(v) ? v.join('; ') : (v||'(no answer)');
+      L.push(`   Q: ${q.text}`);
+      L.push(`   A: ${ans}`);
+      if(A[q.id+'_note']) L.push(`   Note: ${A[q.id+'_note']}`);
+    });
+    L.push('');
+  });
+  if(A.rOther) { L.push('Anything else:'); L.push(A.rOther); }
+  return L.join('\n');
+}
+const status = t => { const s=document.getElementById('status'); s.textContent=t; };
+
+function wireAnswers(){
+  const host = document.getElementById('items');
+  host.addEventListener('change', e => {
+    const el = e.target; if(!el.name) return;
+    if(el.type==='checkbox'){
+      A[el.name] = [...document.querySelectorAll(`input[name="${el.name}"]:checked`)].map(x=>x.value);
+      if(!A[el.name].length) delete A[el.name];
+    } else A[el.name] = el.value;
+    save(); progress();
+  });
+  host.addEventListener('input', e => {
+    const k = e.target.dataset.note; if(!k) return;
+    const v = e.target.value.trim(); if(v) A[k+'_note']=e.target.value; else delete A[k+'_note'];
+    save(); progress();
+  });
+}
+
+function wireFields(){
+  document.querySelectorAll('[data-save]').forEach(el => {
+    el.value = A[el.id]||'';
+    el.addEventListener('input', () => { if(el.value.trim()) A[el.id]=el.value; else delete A[el.id]; save(); });
+  });
+  document.getElementById('bEmail').onclick = () => {
+    const body = summary();
+    const url = `mailto:${encodeURIComponent(SEND_TO)}?subject=${encodeURIComponent(SUBJECT)}&body=${encodeURIComponent(body)}`;
+    if(url.length > 1900) status('Your answers are long: if the email opens empty or cut off, use Copy answers and paste them into the email.');
+    else status('Opening your email app…');
+    location.href = url;
+  };
+  document.getElementById('bCopy').onclick = async () => {
+    try{ await navigator.clipboard.writeText(summary()); status('Copied. Paste it into an email or chat.'); }
+    catch(e){ const t=document.createElement('textarea'); t.value=summary(); document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); status('Copied. Paste it into an email or chat.'); }
+  };
+  document.getElementById('bDown').onclick = () => {
+    const blob = new Blob([summary()], {type:'text/plain'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `GASTEK-decisions-${(A.rCo||A.rName||'client').replace(/[^\w-]+/g,'-')}.txt`;
+    document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},0);
+    status('Downloaded. Attach the file to an email.');
+  };
+  document.getElementById('bPrint').onclick = () => window.print();
+  document.getElementById('bReset').onclick = () => {
+    if(!confirm('Clear all your answers on this device?')) return;
+    A = {}; save(); render(); wireFields(); progress(); watch(); status('');
+  };
+}
+
+/* highlight the item in view */
+function watch(){
+  if(!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ document.querySelectorAll('.rail a').forEach(a=>a.classList.remove('here'));
+      const n=e.target.id.replace('item-',''); const a=document.getElementById('r-'+n); if(a) a.classList.add('here'); }
+  }), {rootMargin:'-40% 0px -55% 0px'});
+  document.querySelectorAll('.item').forEach(s => io.observe(s));
+}
+
+render(); wireAnswers(); wireFields(); progress(); watch();
+</script>
+</body>
+</html>
